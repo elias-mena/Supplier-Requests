@@ -1,0 +1,8 @@
+flask
+flask-bootstrap
+flask-wtf
+flask-login
+flask-scss
+flask-sqlalchemy
+flask-mail
+psycopg2-binary
