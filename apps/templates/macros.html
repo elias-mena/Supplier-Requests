@@ -175,3 +175,28 @@
 {% endmacro %}
 
 
+<!-- Macro to display a row with the request information in the approvers module -->
+{% macro render_request(request) %}
+    <tr>
+      <th scope="row">{{ request.request_id }}</th>
+      <td>{{ request.product }}</td>
+      <td>{{ request.description }}</td>
+
+      <td>{{ request.amount }}</td>
+      <td>{{ request.customer }}</td>
+      <td>{{ request.created_at }}</td>
+
+      <td>
+        <div class="container-fluid d-flex justify-content-between">
+            <button type="button" class="btn btn-success">
+                <a href="/approvers/accept/{{ request.request_id }}/{{ 'A' }}">Aceptar</a>
+            </button>
+            <button type="button" class="btn btn-danger">
+                <a href="/approvers/decline/{{ request.request_id }}/{{ 'D' }}">Rechazar</a>
+            </button>
+        </div>
+      </td>
+    </tr>
+{% endmacro %}
+
+
