@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block title %} View Requests {% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid form_container">
+    <h2>Crear Solicitud</h2>
+      {{wtf.quick_form(form, method="POST")}}
+</div>
+
+{% endblock content %}
+
