@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %} Error {% endblock title %}
+
+
+{% block styles %}
+{{super()}}
+    <link rel="stylesheet" href="{{url_for('static',filename='css/error.css')}}">
+
+{% endblock styles %}
+
+
+{% block content %}
+    <div class="container-fluid">
+      <main class="main d-flex">
+        <section class="error404-container">
+          <div class="error404">
+            <h1>{{ error[:2] }}<span>{{ error[-1] }}</span></h1>
+          </div>
+          <p>{{ message }}</p>
+        </section>
+        <!-- /search -->
+      </main>
+    </div>
+{% endblock content %}
