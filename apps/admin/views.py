@@ -45,6 +45,42 @@ def index():
     return render_template('admin.html', **context)
 
 
+@admin.route('/new', methods=['GET', 'POST'])
+@login_required
+def new():
+    """
+    # New User
+
+    This path is for create a new user in the app
+    """
+    form = NewUserForm()
+    context = {
+        'user': current_user,
+        'form': form,
+         }
+    if form.validate_on_submit():
+        if get_user(form.username.data):
+            flash('Ya existe ese nombre de usuario!')
+
+        else:
+            user_data: User = User(
+                form.username.data,
+                form.first_name.data,
+                form.last_name.data,
+                form.birth_date.data,
+                form.rol.data,  # Number of the client rol, only they can register an account
+                form.email.data,
+                generate_password_hash(form.password.data),
+                'A'  # The status is active by default
+            )
+
+            insert_user(user_data)
+            flash('Usuario Registrado!')
+
+            return redirect(url_for('admin.index'))
+    return render_template('new-user.html', **context)
+
+
 
 
 
