@@ -102,6 +102,24 @@ def update_status(username: str, status: str):
     return redirect(url_for('admin.index'))
 
 
+@admin.route('/update_rol/<string:username>/<int:rol>/', methods=['POST', 'GET'])
+@login_required
+def update_rol(username: str, rol: int):
+    """
+    # Update Rol
 
+    This path is for update the rol of a user.
+
+    ## Parameters:
+        - username: str
+            - Username of the user to the updated
+        - rol:
+            - New rol of the user
+    """
+    user: User = get_user(username)
+    user.rol = rol
+    update_user_rol(user)
+    flash("Rol del usuario actualizado!")
+    return redirect(url_for('admin.index'))
 
 
