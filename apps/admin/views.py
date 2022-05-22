@@ -81,6 +81,27 @@ def new():
     return render_template('new-user.html', **context)
 
 
+@admin.route('/update_status/<string:username>/<string:status>/', methods=['POST', 'GET'])
+@login_required
+def update_status(username: str, status: str):
+    """
+    # Update Status
+
+    This path is for update the status of a user.
+
+    ## Parameters:
+        - username: str
+            - Username of the user to the updated
+        - status:
+            - New status of the user
+    """
+    user: User = get_user(username)
+    user.status = status
+    update_user_state(user)
+    flash("Estado del usuario actualizado!")
+    return redirect(url_for('admin.index'))
+
+
 
 
 
