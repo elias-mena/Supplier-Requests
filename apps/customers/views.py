@@ -87,4 +87,13 @@ def index():
     return render_template('customers.html', **context)
 
 
-
+@customers.route('/requests', methods=['GET', 'POST'])
+@login_required
+def requests():
+    """All the requests the user has made"""
+    client_requests: List[FullRequestInfo] = get_client_requests(current_user.id)
+    context = {
+        'user': current_user,
+        'requests': client_requests
+    }
+    return render_template('customer-requests.html', **context)
