@@ -1,0 +1,62 @@
+@import 'base';
+
+h1 {
+  font-size: 6em;
+  margin: 0 0 1rem;
+}
+
+.main {
+  height: calc(100vh - 200px);
+  justify-content: center;
+}
+
+.error404-container {
+  justify-content: center;
+  p {
+    margin-top:100px;
+    font-size:25px;
+  }
+}
+.error404 {
+  margin-top:100px;
+  @include flex(column, center, center);
+  max-width: 600px;
+  text-align: center;
+  h1{
+    margin-left:50px;
+    max-width: 220px;
+    align-self: center;
+    line-height: 4.5rem;
+  }
+  h1 span {
+    transform: rotate(180deg);
+    display: inline-block;
+    transform-origin: center bottom;
+    animation: rotate4 2s linear;
+    animation-iteration-count: infinite;
+  }
+}
+
+
+/* Animations*/
+@keyframes matrixAnimation {
+  0% {
+    right: 0;
+    opacity: 0.5;
+  }
+  100% {
+    right: 100vw;
+    opacity: 0;
+  }
+}
+@keyframes rotate4 {
+  0% {
+    transform: rotate(160deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  100% {
+    transform: rotate(160deg);
+  }
+}
