@@ -1,0 +1,50 @@
+
+<header class="p-3 mb-3 nav bg-dark ">
+    <div class="container-fluid d-flex flex-row justify-content-between">
+        <a class="navbar-brand link-light" href="#">Solicitudes a Proveduría </a>
+
+        {% if user %}
+            <div class="d-flex dropdown">
+              <a
+                href="#"
+                class="d-block link-dark dropdown-toggle"
+                id="dropdownUser1"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                <i class="bi bi-list text-white" style="font-size: 30px"></i>
+              </a>
+              <ul
+                class="dropdown-menu text-small"
+                aria-labelledby="dropdownUser1"
+                style=""
+              >
+                    {% if user.rol == 1 %}
+                        <li><a class="dropdown-item" href="{{ url_for('admin.index')}}">Administrar Usuarios</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('admin.new')}}">Agregar Usuario</a></li>
+                    {% endif %}
+
+                    {% if user.rol == 2 %}
+                        <li><a class="dropdown-item" href="{{ url_for('customers.index')}}">Crear Solicitud</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('customers.requests')}}">Historial de Solicitudes</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('customers.index')}}">Perfil</a></li>
+                    {% endif %}
+
+                    {% set approver_rols = [3,4,5,6] %}
+                    {% if user.rol in approver_rols%}
+                        <li><a class="dropdown-item" href="{{ url_for('approvers.index')}}">Solicitudes Pendientes</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('approvers.reports')}}">Reportes</a></li>
+                        <li><a class="dropdown-item" href="{{ url_for('approvers.index')}}">Perfil</a></li>
+
+                    {% endif %}
+                    <li><hr class="dropdown-divider" /></li>
+                    <li><a class="dropdown-item" href="{{ url_for('auth.logout') }}">Cerrar Sesión</a></li>
+
+            {% endif %}
+
+
+                    </ul>
+                </div>
+      </div>
+</header>
+
