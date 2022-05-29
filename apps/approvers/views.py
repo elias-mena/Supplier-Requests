@@ -95,8 +95,7 @@ def accept_request(request_id: int):
         flash('Se ha aprobado la solicitud y se ha enviado un correo de notificación al cliente!')
 
     message = f'La solicitud con id: {request.id},\n' \
-              f'Fue aprovada por el aprovador: {current_user.id},\n' \
-
+              f'Fue aprovada por el aprovador: {current_user.id},\n'
     message_data = {
         'subject': 'Request Accepted',
         'emails': [user_email],
@@ -128,8 +127,7 @@ def decline_request(request_id: int):
     update_request_status(request)
 
     message = f'La solicitud con id: {request.id},\n' \
-              f'Fue rechazada por el aprovador: {current_user.id},\n' \
-
+              f'Fue rechazada por el aprovador: {current_user.id},\n'
     user_email = get_user_mail(request.customer)
 
     message_data = {
@@ -146,7 +144,7 @@ def decline_request(request_id: int):
 @login_required
 def reports():
     """Reports"""
-    requests = get_approver_requests(current_user.id)
+    requests: List[FullRequestInfo] = get_approver_requests(current_user.id)
     context = {
         'user': current_user,
         'requests': requests
@@ -157,7 +155,7 @@ def reports():
 @approvers.route('/reports/<int:months>', methods=['GET', 'POST'])
 @login_required
 def reports_by_months(months: int):
-    requests = get_requests_by_month(months)
+    requests: List[FullRequestInfo] = get_requests_by_month(months)
     context = {
         'user': current_user,
         'requests': requests
@@ -169,7 +167,7 @@ def reports_by_months(months: int):
 @login_required
 def reports_by_status(status: str):
     """Reports by requests status"""
-    requests = get_requests_by_status(status)
+    requests: List[FullRequestInfo] = get_requests_by_status(status)
     context = {
         'user': current_user,
         'requests': requests
