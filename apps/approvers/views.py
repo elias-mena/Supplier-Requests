@@ -169,4 +169,9 @@ def reports_by_months(months: int):
 @login_required
 def reports_by_status(status: str):
     """Reports by requests status"""
-    pass
+    requests = get_requests_by_status(status)
+    context = {
+        'user': current_user,
+        'requests': requests
+    }
+    return render_template('approver-reports.html', **context)
