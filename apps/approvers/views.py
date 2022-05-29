@@ -157,7 +157,12 @@ def reports():
 @approvers.route('/reports/<int:months>', methods=['GET', 'POST'])
 @login_required
 def reports_by_months(months: int):
-    pass
+    requests = get_requests_by_month(months)
+    context = {
+        'user': current_user,
+        'requests': requests
+    }
+    return render_template('approver-reports.html', **context)
 
 
 @approvers.route('/reports/<string:status>', methods=['GET', 'POST'])
