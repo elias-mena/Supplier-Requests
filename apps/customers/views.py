@@ -11,14 +11,14 @@ from flask_login import login_required, current_user
 # Models
 from models import (
     Request,
-    FullRequestInfo,
-    User
+    FullRequestInfo
 )
 
 # Db Methods
 from db_service import (
     get_client_requests,
     get_request,
+    get_user_mail,
     insert_request,
     insert_full_request_info
 )
@@ -68,7 +68,7 @@ def index():
 
         # Notify the user and the approver about the new request
 
-        approver_email = User.query.filter_by(username='chief').first().email
+        approver_email = get_user_mail("chief")
 
         message = f'Comprador: {current_user.id},\n' \
              f'Monto: {new_request.amount},\n' \
