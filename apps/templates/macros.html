@@ -66,7 +66,7 @@
 <!-- Macro to display a row with the request information in the customer module -->
 {% macro render_customer_request(request) %}
     <tr>
-      <th scope="row">{{ request.info["request_id"] }}</th>
+      <th scope="row">{{ request.info["id"] }}</th>
       <td>{{ request.info["product"] }}</td>
       <td>{{ request.info["description"] }}</td>
 
@@ -93,16 +93,16 @@
       {% endif %}
 
       <td>
-        <button type="button" class="btn btn-info" style="color: white" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ request.info["request_id"] }}">
+        <button type="button" class="btn btn-info" style="color: white" data-bs-toggle="modal" data-bs-target="#staticBackdrop{{ request.info["id"] }}">
           Ver Historial
         </button>
 
             <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop{{ request.info["request_id"] }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: black">
+        <div class="modal fade" id="staticBackdrop{{ request.info["id"] }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: black">
           <div class="modal-dialog" style="width:700px;">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Información de la solicitud ID: {{ request.info["request_id"] }}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Información de la solicitud ID: {{ request.info["id"] }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
               </div>
               <div class="modal-body d-flex justify-content-between">
@@ -178,22 +178,23 @@
 <!-- Macro to display a row with the request information in the approvers module -->
 {% macro render_request(request) %}
     <tr>
-      <th scope="row">{{ request.request_id }}</th>
-      <td>{{ request.product }}</td>
-      <td>{{ request.description }}</td>
+      <th scope="row">{{ request["id"] }}</th>
+      <td>{{ request["product"] }}</td>
+      <td>{{ request["description"] }}</td>
 
-      <td>{{ request.amount }}</td>
-      <td>{{ request.customer }}</td>
-      <td>{{ request.created_at }}</td>
+      <td>{{ request["amount"] }}</td>
+      <td>{{ request["customer"] }}</td>
+      <td>{{ request["created_at"] }}</td>
 
       <td>
         <div class="container-fluid d-flex justify-content-between">
             <button type="button" class="btn btn-success">
-                <a href="/approvers/accept/{{ request.request_id }}/{{ 'A' }}">Aceptar</a>
+                <a href="/approvers/accept/{{ request.id }}">Aceptar</a>
             </button>
             <button type="button" class="btn btn-danger">
-                <a href="/approvers/decline/{{ request.request_id }}/{{ 'D' }}">Rechazar</a>
+                <a href="/approvers/decline/{{ request.id }}">Rechazar</a>
             </button>
+
         </div>
       </td>
     </tr>
@@ -203,28 +204,28 @@
 <!-- Macro to display a row with the request information in the approvers reports module -->
 {% macro render_request_report(request) %}
     <tr>
-      <th scope="row">{{ request.info.request_id }}</th>
-      <td>{{ request.info.product }}</td>
-      <td>{{ request.info.description }}</td>
+      <th scope="row">{{ request.info["id"] }}</th>
+      <td>{{ request.info["product"] }}</td>
+      <td>{{ request.info["description"] }}</td>
 
-      <td>{{ request.info.amount }}</td>
-      <td>{{ request.info.customer }}</td>
-      <td>{{ request.info.created_at }}</td>
+      <td>{{ request.info["amount"] }}</td>
+      <td>{{ request.info["customer"] }}</td>
+      <td>{{ request.info["created_at"] }}</td>
 
 
-      {% if request.info.status == 'P' %}
+      {% if request.info["status"] == 'P' %}
         <td>
           <span class="status text-warning">&bull;</span> Pendiente
         </td>
       {% endif %}
 
-      {% if request.info.status == 'A' %}
+      {% if request.info["status"] == 'A' %}
         <td>
           <span class="status text-success">&bull;</span> Aceptada
         </td>
       {% endif %}
 
-      {% if request.info.status == 'D' %}
+      {% if request.info["status"] == 'D' %}
           <td>
             <span class="status text-danger">&bull;</span> Rechazada
           </td>
@@ -235,11 +236,11 @@
           Ver Historial
         </button>
           <!-- Modal -->
-        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: black">
+        <div class="modal fade" id="staticBackdrop{{ request["id"] }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="color: black">
           <div class="modal-dialog" style="width:700px;">
             <div class="modal-content">
               <div class="modal-header">
-                <h5 class="modal-title" id="staticBackdropLabel">Información de la solicitud ID: {{ request.request_id }}</h5>
+                <h5 class="modal-title" id="staticBackdropLabel">Información de la solicitud ID: {{ request["id"] }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
               </div>
               <div class="modal-body d-flex justify-content-between">
@@ -250,16 +251,16 @@
                   </div>
                   {% if request.first_approval %}
                       <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Aprovador: {{ request.first_approval.approver }}</li>
+                        <li class="list-group-item">Aprovador: {{ request.first_approval["approver"] }}</li>
                         <li class="list-group-item">Acción:
-                            {% if request.first_approval.action == 'A' %}
+                            {% if request.first_approval["action"] == 'A' %}
                                 Aprovada
                             {% endif %}
-                            {% if request.first_approval.action == 'D' %}
+                            {% if request.first_approval["action"] == 'D' %}
                                 Rechazada
                             {% endif %}
                         </li>
-                        <li class="list-group-item">{{ request.first_approval.date }}</li>
+                        <li class="list-group-item">{{ request.first_approval["date"] }}</li>
                       </ul>
                   {% else %}
                     <ul class="list-group list-group-flush">
@@ -277,16 +278,16 @@
                   </div>
                 {% if request.second_approval %}
                     <ul class="list-group list-group-flush">
-                        <li class="list-group-item">Aprovador: {{ request.second_approval.approver }}</li>
+                        <li class="list-group-item">Aprovador: {{ request.second_approval["approver"] }}</li>
                         <li class="list-group-item">Acción:
-                            {% if request.second_approval.action == 'A' %}
+                            {% if request.second_approval["action"] == 'A' %}
                                 Aprovada
                             {% endif %}
-                            {% if request.second_approval.action == 'D' %}
+                            {% if request.second_approval["action"] == 'D' %}
                                 Rechazada
                             {% endif %}
                         </li>
-                        <li class="list-group-item">{{ request.second_approval.date }}</li>
+                        <li class="list-group-item">{{ request.second_approval["date"] }}</li>
                     </ul>
 
                 {% else %}
