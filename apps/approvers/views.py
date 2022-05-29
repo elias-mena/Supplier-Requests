@@ -146,7 +146,12 @@ def decline_request(request_id: int):
 @login_required
 def reports():
     """Reports"""
-    pass
+    requests = get_approver_requests(current_user.id)
+    context = {
+        'user': current_user,
+        'requests': requests
+    }
+    return render_template('approver-reports.html', **context)
 
 
 @approvers.route('/reports/<int:months>', methods=['GET', 'POST'])
