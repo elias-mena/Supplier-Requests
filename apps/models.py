@@ -185,7 +185,7 @@ class RequestHistory(db.Model):
         Builds a new register for a request history.
 
         # Parameters:
-            request: int
+            request_id: int
                 - Reference for the request_id
             approver:
                 - Username of the approver
