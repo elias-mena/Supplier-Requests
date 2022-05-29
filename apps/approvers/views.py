@@ -59,7 +59,59 @@ def accept_request(request_id: int):
     """
     Accepts a request
     """
-    pass
+    request: Request = get_request(request_id)
+    history_info: RequestHistory = RequestHistory(request_id, current_user.id, "A")
+    insert_request_history(history_info)
+    user_email = get_user_mail(request.customer)
+    approver_email = ""
+
+    if current_user.rol == 3:
+        update_first_approval_info(history_info)
+        if 1 < request.amount < 100000:
+            approver_email = get_user_mail("financial1")
+        if 100000 < request.amount < 1000000:
+            approver_email = get_user_mail("financial2")
+
+        if 1000000 < request.amount < 10000000:
+            approver_email = get_user_mail("financial3")
+
+        message = f'Comprador: {current_user.id},\n' \
+                  f'Monto: {request.amount},\n' \
+                  f'Producto: {request.product},\n' \
+                  f'Descripcion: {request.description} \n'
+
+        message_data = {
+            'subject': 'New request',
+            'emails': [approver_email],
+            'message': message
+        }
+        send_mail(**message_data)
+        flash('Se ha aprobado la solicitud y se ha enviado un correo de notificacion '
+              'al cliente y al aprovador financiero para su revisión!')
+
+    if current_user.rol in (4, 5, 6):
+        update_second_approval_info(history_info)
+        request.status = "A"
+        flash('Se ha aprobado la solicitud y se ha enviado un correo de notificación al cliente!')
+
+    message = f'La solicitud con id: {request.id},\n' \
+              f'Fue aprovada por el aprovador: {current_user.id},\n' \
+
+    message_data = {
+        'subject': 'Request Accepted',
+        'emails': [user_email],
+        'message': message
+    }
+
+    if current_user.rol > 3:
+        update_second_approval_info(history_info)
+        request.status = "A"
+        update_request_status(request)
+        flash('Se ha enviado un correo de notificación al cliente!')
+
+    send_mail(**message_data)
+    update_request_status(request)
+    return redirect(url_for("approvers.index"))
 
 
 @approvers.route('decline/<int:request_id>/', methods=['GET', 'POST'])
