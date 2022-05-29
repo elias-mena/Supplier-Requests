@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_request %}
+
+{% block title %} Approvers {% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid" style="min-height: 400px">
+      <div class="container-fluid" style="display:flex; justify-content: space-between;">
+        <h2>Solicitudes Pendientes</h2>
+        <button type="button" class="btn btn-primary">
+            <a href="{{url_for('approvers.reports')}}">Ver reportes</a>
+
+        </button>
+      </div>
+      <br>
+
+      <div class="table-responsive">
+        <table
+          id="userList"
+          class="table table-dark table-hover table-sm table-bordered "
+        >
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Monto</th>
+              <th scope="col">Comprador</th>
+              <th scope="col">Fecha de Creación</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in requests %}
+              {{ render_request(request.info) }}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+{% endblock content %}
+
+
