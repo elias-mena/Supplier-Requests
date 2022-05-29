@@ -120,7 +120,26 @@ def decline_request(request_id: int):
     """"
     Declines a request
     """
-    pass
+    request: Request = get_request(request_id)
+    history_info: RequestHistory = RequestHistory(request_id, current_user.id, "A")
+    insert_request_history(history_info)
+
+    request.status = "D"
+    update_request_status(request)
+
+    message = f'La solicitud con id: {request.id},\n' \
+              f'Fue rechazada por el aprovador: {current_user.id},\n' \
+
+    user_email = get_user_mail(request.customer)
+
+    message_data = {
+        'subject': 'New request',
+        'emails': [user_email],
+        'message': message
+    }
+    send_mail(**message_data)
+    flash('Se ha rechazado la solicitud y se ha enviado un correo de notificacion al cliente!')
+    return redirect(url_for("approvers.index"))
 
 
 @approvers.route('/reports', methods=['GET', 'POST'])
