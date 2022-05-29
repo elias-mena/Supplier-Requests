@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% from 'macros.html' import render_request_report %}
+
+{% block title %} View Requests {% endblock title %}
+
+
+{% block content %}
+
+<div class="container-fluid" style="min-height: 400px">
+  <div class="row">
+    <nav id="sidebarMenu" class="col-md-2 d-md-block sidebar collapse">
+      <div class="position-sticky pt-3">
+
+        <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+          <span>Filtrar Reportes</span>
+          <a class="link-secondary" href="#" aria-label="Add a new report">
+            <span data-feather="plus-circle"></span>
+          </a>
+        </h6>
+        <ul class="nav flex-column mb-2">
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('approvers.reports_by_months', months=3 )}}">
+              <span data-feather="file-text">Últimos 3 meses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('approvers.reports_by_months', months=6 )}}">
+              <span data-feather="file-text">Últimos 6 meses</span>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{{url_for('approvers.reports_by_months', months=12 )}}">
+              <span data-feather="file-text">Últimos 12 meses</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <main class="col-md-9  col-lg-10 ">
+      <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+        <h1 class="h2">Reportes</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+          <div class="btn-group me-2" style="">
+
+            <button type="button" class="btn btn-sm btn-secondary " >
+                <a class="nav-link" href="{{url_for('approvers.reports')}}">
+                    <span data-feather="file-text">Solicitudes Recibidas</span>
+                </a>
+            </button>
+
+            <button type="button" class="btn btn-sm btn-secondary">
+                <a class="nav-link" href="{{url_for('approvers.reports_by_status', status='A')}}">
+                    <span data-feather="file-text">Solicitudes Aceptadas</span>
+                </a>
+
+            </button>
+
+              <button type="button" class="btn btn-sm btn-secondary" >
+                <a class="nav-link" href="{{url_for('approvers.reports_by_status', status='D' )}}">
+                    <span data-feather="file-text">Solicitudes Rechazadas</span>
+                </a>
+              </button>
+          </div>
+
+        </div>
+      </div>
+      <div class="table-responsive">
+        <table
+          id="userList"
+          class="table table-dark table-hover table-sm table-bordered "
+        >
+          <thead class="thead-light">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Producto</th>
+              <th scope="col">Descripción</th>
+              <th scope="col">Monto</th>
+              <th scope="col">Comprador</th>
+              <th scope="col">Fecha de Creación</th>
+              <th scope="col">Estatus</th>
+              <th scope="col">Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for request in requests %}
+              {{ render_request_report(request) }}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </main>
+    </div>
+    
+    
+  </div>
+{% endblock content %}
